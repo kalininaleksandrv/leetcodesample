@@ -60,11 +60,20 @@ class CollectionsExampleTest {
     }
 
     @Test
-    void groupingByRegs() {
+    void groupingWithChangeValueClassType() {
         CollectionsExample collectionsExample = new CollectionsExample();
-        Map<String, Set<Address>> res = collectionsExample.groupingWithChangeKeyClassType(incomingData);
+        Map<String, Set<Address>> res = collectionsExample.groupingWithChangeValueClassType(incomingData);
         assertEquals(3, res.size());
-        assertTrue(res.containsKey("Tanya"));
-        assertEquals(1, res.get("Tanya").size());
+        assertEquals(1, res.get("Tanya").size()); //size = 1 because of set deduplication of addresses
+    }
+
+    @Test
+    void groupByNameChangeToTreeMap() {
+        CollectionsExample collectionsExample = new CollectionsExample();
+        Map<String, List<User>> res = collectionsExample.groupByNameChangeToTreeMap(incomingData);
+        List<String> keyList = res.keySet().stream().toList();
+        assertEquals(3, res.size());
+        assertEquals("Gleb", keyList.get(0)); //Gleb is first and Vasily is last because TreeMap is sorted
+        assertEquals("Vasily", keyList.get(2));
     }
 }

@@ -7,9 +7,14 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class CollectionsExample {
+
+    /*
+      ------------ GROUPING -----------------
+     */
 
     /**
      * collector takes simple function as a param
@@ -43,12 +48,26 @@ public class CollectionsExample {
      * collector takes 2 param - function to extract key from User and Collector.mapping which turns User to Address
      * after mapping second collector turns result to set fore deduplication
      */
-    public Map<String, Set<Address>> groupingWithChangeKeyClassType(List<User> incomingData) {
+    public Map<String, Set<Address>> groupingWithChangeValueClassType(List<User> incomingData) {
         return incomingData
                 .stream()
                 .collect(Collectors.groupingBy(User::getName,
                         Collectors.mapping(User::getAddress, Collectors.toSet())));
     }
+
+    /**
+     * Collector with third parameter lets you specify the type of map
+     * f.e. in this case we're specified TreeMap for sorting
+     */
+    public Map<String, List<User>> groupByNameChangeToTreeMap(List<User> incomingData) {
+        return incomingData.stream().collect(Collectors.groupingBy(User::getName, TreeMap::new, Collectors.toList()));
+    }
+
+    // TODO: 13.08.2022 add collector with custom comparator from Dubai testcase
+
+    /*
+      ------------ MAPPING -----------------
+     */
 }
 
 @Data
