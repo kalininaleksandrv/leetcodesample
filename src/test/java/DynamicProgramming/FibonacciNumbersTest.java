@@ -29,4 +29,17 @@ class FibonacciNumbersTest {
         long finish = System.nanoTime();
         System.out.println("it takes " + (finish-start)/1000000 + " ms");
     }
+
+    @Test
+    void getNFibonacciNumberV3() {
+        FibonacciNumbers fibonacciNumbers = new FibonacciNumbers();
+        assertEquals(0, fibonacciNumbers.getNFibonacciNumberV3(1));
+        assertEquals(1, fibonacciNumbers.getNFibonacciNumberV3(3));
+        long start = System.nanoTime();
+        assertEquals(63245986, fibonacciNumbers.getNFibonacciNumberV3(40));
+        long finish = System.nanoTime();
+        System.out.println("it takes " + (finish-start)/1000000 + " ms");
+    }
+
+
 }

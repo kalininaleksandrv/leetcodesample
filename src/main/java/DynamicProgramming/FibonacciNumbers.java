@@ -35,4 +35,26 @@ public class FibonacciNumbers {
         }
         return temp;
     }
+
+    /**
+     * O(n) without dynamic programming
+     */
+    public long getNFibonacciNumberV3(int n){
+
+        if(n < 1) throw  new RuntimeException("n must be >= 1");
+        if(n == 1) return 0;
+        if(n <= 3) return 1;
+
+        long temp = 0;
+        long stepMinusOne = 1;
+        long stepMinusTwo = 1;
+
+        for (int j = 4; j <= n; j++) {
+            temp = stepMinusOne+stepMinusTwo;
+            stepMinusTwo = stepMinusOne;
+            stepMinusOne = temp;
+        }
+        return temp;
+    }
+
 }
