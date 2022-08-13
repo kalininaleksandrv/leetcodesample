@@ -6,20 +6,49 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class CollectionsExample {
 
     /**
-     * returns map where key is User and value is list of users
      * collector takes simple function as a param
      */
-    Map<String, List<User>> groupByName(List<User> incomingData){
+    public Map<String, List<User>> groupByName(List<User> incomingData){
         return incomingData
                 .stream()
                 .collect(Collectors.groupingBy(User::getName));
     }
 
+    /**
+     * collector takes 2 param - function to extract key from User and downstream collector which reduce value by counting
+     */
+    public Map<Boolean, Long> groupingAndCounting(List<User> incomingData) {
+        return incomingData
+                .stream()
+                .collect(Collectors.groupingBy(User::isRegistered, Collectors.counting()));
+    }
+
+    /**
+     * collector takes 2 param - function to extract key from User and Collector.mapping whih joining
+     * returns Address as a key and names of user, lives on specific address with delimiter
+     */
+    public Map<Address, String> groupingAndMapping(List<User> incomingData) {
+        return incomingData.stream()
+                .collect(Collectors.groupingBy(User::getAddress,
+                        Collectors.mapping(User::getName, Collectors.joining("---"))));
+    }
+
+    /**
+     * collector takes 2 param - function to extract key from User and Collector.mapping which turns User to Address
+     * after mapping second collector turns result to set fore deduplication
+     */
+    public Map<String, Set<Address>> groupingByRegs(List<User> incomingData) {
+        return incomingData
+                .stream()
+                .collect(Collectors.groupingBy(User::getName,
+                        Collectors.mapping(User::getAddress, Collectors.toSet())));
+    }
 }
 
 @Data

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,5 +36,35 @@ class CollectionsExampleTest {
         assertEquals(2, res.get("Tanya").size());
         assertEquals(1, res.get("Vasily").size());
         assertEquals(1, res.get("Gleb").size());
+    }
+
+    @Test
+    void groupingAndCounting() {
+        CollectionsExample collectionsExample = new CollectionsExample();
+        Map<Boolean, Long> res = collectionsExample.groupingAndCounting(incomingData);
+        assertEquals(2, res.size());
+        assertTrue(res.containsKey(true));
+        assertTrue(res.containsKey(false));
+        assertEquals(2, res.get(true));
+        assertEquals(2, res.get(false));
+    }
+
+    @Test
+    void groupingAndMapping() {
+
+        CollectionsExample collectionsExample = new CollectionsExample();
+        Map<Address, String> res = collectionsExample.groupingAndMapping(incomingData);
+        assertEquals(2, res.size());
+        assertTrue(res.containsKey(new Address(1, "Addres1")));
+        assertEquals("Vasily---Gleb", res.get(new Address(1, "Addres1")));
+    }
+
+    @Test
+    void groupingByRegs() {
+        CollectionsExample collectionsExample = new CollectionsExample();
+        Map<String, Set<Address>> res = collectionsExample.groupingByRegs(incomingData);
+        assertEquals(3, res.size());
+        assertTrue(res.containsKey("Tanya"));
+        assertEquals(1, res.get("Tanya").size());
     }
 }
