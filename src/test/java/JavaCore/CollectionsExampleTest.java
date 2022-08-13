@@ -62,7 +62,7 @@ class CollectionsExampleTest {
     @Test
     void groupingByRegs() {
         CollectionsExample collectionsExample = new CollectionsExample();
-        Map<String, Set<Address>> res = collectionsExample.groupingByRegs(incomingData);
+        Map<String, Set<Address>> res = collectionsExample.groupingWithChangeKeyClassType(incomingData);
         assertEquals(3, res.size());
         assertTrue(res.containsKey("Tanya"));
         assertEquals(1, res.get("Tanya").size());

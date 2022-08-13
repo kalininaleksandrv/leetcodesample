@@ -43,7 +43,7 @@ public class CollectionsExample {
      * collector takes 2 param - function to extract key from User and Collector.mapping which turns User to Address
      * after mapping second collector turns result to set fore deduplication
      */
-    public Map<String, Set<Address>> groupingByRegs(List<User> incomingData) {
+    public Map<String, Set<Address>> groupingWithChangeKeyClassType(List<User> incomingData) {
         return incomingData
                 .stream()
                 .collect(Collectors.groupingBy(User::getName,
