@@ -76,4 +76,29 @@ class CollectionsExampleTest {
         assertEquals("Gleb", keyList.get(0)); //Gleb is first and Vasily is last because TreeMap is sorted
         assertEquals("Vasily", keyList.get(2));
     }
+
+    @Test
+    void mapFromUserList() {
+        CollectionsExample collectionsExample = new CollectionsExample();
+        Map<Integer, User> res = collectionsExample.mapFromUserList(incomingData);
+        assertEquals(4, res.size());
+    }
+
+
+    @Test
+    void mapFromUserListWithMerging() {
+        CollectionsExample collectionsExample = new CollectionsExample();
+        Map<String, User> res = collectionsExample.mapFromUserListWithMerging(incomingData);
+        assertEquals(3, res.size()); //3 because only last "Tanya" remains
+    }
+
+    @Test
+    void mapWithMergeAndSort() {
+        CollectionsExample collectionsExample = new CollectionsExample();
+        Map<String, User> res = collectionsExample.mapWithMergeAndSort(incomingData);
+        List<String> keyList = res.keySet().stream().toList();
+        assertEquals(3, res.size()); //3 because only last "Tanya" remains
+        assertEquals("Gleb", keyList.get(0)); //Gleb is first and Vasily is last because TreeMap is sorted
+        assertEquals("Vasily", keyList.get(2));
+    }
 }

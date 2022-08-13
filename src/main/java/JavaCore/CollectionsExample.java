@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class CollectionsExample {
@@ -63,11 +64,48 @@ public class CollectionsExample {
         return incomingData.stream().collect(Collectors.groupingBy(User::getName, TreeMap::new, Collectors.toList()));
     }
 
-    // TODO: 13.08.2022 add collector with custom comparator from Dubai testcase
-
     /*
       ------------ MAPPING -----------------
      */
+
+    /**
+     * simple map from list
+     */
+    public Map<Integer, User> mapFromUserList(List<User> incomingData) {
+        return incomingData
+                .stream()
+                .collect(Collectors.toMap(User::getId, Function.identity()));
+    }
+
+    /**
+     * when we find the same value the merge function works with defined rules (specifically here - last value remains)
+     */
+    public Map<String, User> mapFromUserListWithMerging(List<User> incomingData) {
+        return incomingData
+                .stream()
+                .collect(Collectors.toMap(
+                        User::getName,
+                        Function.identity(),
+                        (oldone, newone) -> newone
+                ));
+    }
+
+    /**
+     * the same as a previous - merging values but also sort the map
+     */
+    public Map<String, User> mapWithMergeAndSort(List<User> incomingData) {
+        return incomingData
+                .stream()
+                .collect(Collectors.toMap(
+                        User::getName,
+                        Function.identity(),
+                        (oldest, newest) -> newest,
+                        TreeMap::new
+                ));
+    }
+
+    // TODO: 13.08.2022 add collector with custom comparator from Dubai testcase
+
 }
 
 @Data
