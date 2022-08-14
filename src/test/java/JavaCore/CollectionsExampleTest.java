@@ -127,4 +127,20 @@ class CollectionsExampleTest {
         assertEquals(3, strings.size()); //3 because only last record with key "Tanya" remains
         assertTrue(strings.stream().allMatch(i -> i.contains("has a flat with address:")));
     }
+
+    @Test
+    void countAllMatchingValuesV1() {
+        int[] countSource = new int[]{1, 2, 3, 100};
+        CollectionsExample collectionsExample = new CollectionsExample();
+        Integer res = collectionsExample.countAllMatchingValuesV1(countSource, 10);
+        assertEquals(3, res); // all numbers > 10 will be discarded, others will be count
+    }
+
+    @Test
+    void countAllMatchingValuesV2() {
+        int[] countSource = new int[]{1, 2, 3, 100};
+        CollectionsExample collectionsExample = new CollectionsExample();
+        Integer res = collectionsExample.countAllMatchingValuesV2(countSource, 10);
+        assertEquals(3, res); // all numbers > 10 will be discarded, others will be count
+    }
 }

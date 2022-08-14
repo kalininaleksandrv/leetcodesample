@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class CollectionsExample {
 
@@ -34,7 +35,7 @@ public class CollectionsExample {
 
     /**
      * collector takes 2 param - function to extract key from User and Collector.mapping whih joining
-     * returns Address as a key and names of user, lives on specific address with delimiter
+     * returns Address as a key and names of user, who lives on specific address with delimiter
      */
     public Map<Address, String> groupingAndMapping(List<User> incomingData) {
         return incomingData.stream()
@@ -134,6 +135,54 @@ public class CollectionsExample {
                 .stream()
                 .map(e -> e.getKey() + " has a flat with address: " + e.getValue().getAddress().getStreet())
                 .collect(Collectors.toList());
+    }
+
+    private void iterationOverMap(Map<Integer, User> userMap) {
+        // simple entry set
+        for (Map.Entry<Integer, User> entry: userMap.entrySet()){
+            System.out.println(entry.getKey()+"---"+entry.getValue().getName());
+        }
+        // get key and then get value with key
+        for (Integer key: userMap.keySet()){
+            System.out.println(userMap.get(key).getName());
+        }
+        // use iterator
+        Iterator<Map.Entry<Integer,User>> iterator = userMap.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry<Integer, User> next = iterator.next();
+            System.out.println(next.getValue().getName());
+        }
+        //stream forEach
+        userMap.forEach((k, v) -> System.out.println(k + "---" + v.getName()));
+        //stream from entrySet
+        userMap.entrySet()
+                .stream()
+                .map(i -> i.getKey() + " is ID of user with name " + i.getValue().getName())
+                .forEach(System.out::println);
+        //stream from values
+        userMap.values()
+                .stream()
+                .map(User::getName)
+                .forEach(System.out::println);
+
+    }
+
+    /*
+      ------------ WORK WITH ARRAYS -----------------
+     */
+
+    public Integer countAllMatchingValuesV1(int[] myArrayOfInts, int val) {
+        return Math.toIntExact(IntStream.range(0, myArrayOfInts.length)
+                .filter(i -> myArrayOfInts[i] < val)
+                .count());
+    }
+
+    public Integer countAllMatchingValuesV2(int[] myArrayOfInts, int val) {
+        return Arrays
+                .stream(myArrayOfInts)
+                .filter(i -> i < val)
+                .map(e -> 1)
+                .reduce(0, Integer::sum);
     }
 
 
