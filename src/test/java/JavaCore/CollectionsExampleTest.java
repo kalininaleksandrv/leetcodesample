@@ -15,14 +15,16 @@ class CollectionsExampleTest {
     @BeforeEach
     void setUp() {
         incomingData = List.of(
-                new User(1, "Vasily", false, new Address(1, "Addres1")),
-                new User(2, "Gleb", true, new Address(1, "Addres1")),
-                new User(3, "Tanya", true, new Address(1, "Addres2")),
-                new User(4, "Tanya", false, new Address(1, "Addres2")));
+                new User(1, "Vasily", false, new Address(1, "Address1", 100)),
+                new User(2, "Gleb", true, new Address(1, "Address1", 100)),
+                new User(3, "Tanya", true, new Address(2, "Address2", 200)),
+                new User(4, "Tanya", false, new Address(2, "Address2", 200)));
 
         incomingData2 = List.of(
-                new User(1, "John", false, new Address(1, "Addres2")),
-                new User(2, "Carl", true, new Address(1, "Addres3")));
+                new User(1, "John", false, new Address(2, "Address2", 200)),
+                new User(2, "Carl", true, new Address(3, "Address3", 300)),
+                new User(3, "Jane", true, new Address(4, "Address4", 400)),
+                new User(4, "Mariam", true, new Address(5, "Address5", 500)));
     }
 
     @Test
@@ -55,8 +57,8 @@ class CollectionsExampleTest {
         CollectionsExample collectionsExample = new CollectionsExample();
         Map<Address, String> res = collectionsExample.groupingAndMapping(incomingData);
         assertEquals(2, res.size());
-        assertTrue(res.containsKey(new Address(1, "Addres1")));
-        assertEquals("Vasily---Gleb", res.get(new Address(1, "Addres1")));
+        assertTrue(res.containsKey(new Address(1, "Address1", 100)));
+        assertEquals("Vasily---Gleb", res.get(new Address(1, "Address1", 100)));
     }
 
     @Test
@@ -100,5 +102,13 @@ class CollectionsExampleTest {
         assertEquals(3, res.size()); //3 because only last "Tanya" remains
         assertEquals("Gleb", keyList.get(0)); //Gleb is first and Vasily is last because TreeMap is sorted
         assertEquals("Vasily", keyList.get(2));
+    }
+
+    @Test
+    void mapWithSortByKeyObj() {
+        CollectionsExample collectionsExample = new CollectionsExample();
+        Map<String, Integer> res =collectionsExample.mapWithSortByKeyObj(incomingData2);
+        assertEquals(2, res.size());//2 because 2 is the limit
+        assertTrue(res.values().stream().allMatch(i -> i>300));//remains only highest values 400 and 500
     }
 }

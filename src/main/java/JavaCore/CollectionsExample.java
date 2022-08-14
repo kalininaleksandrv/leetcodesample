@@ -104,7 +104,20 @@ public class CollectionsExample {
                 ));
     }
 
-    // TODO: 13.08.2022 add collector with custom comparator from Dubai testcase
+    /**
+     * what if we need to remain only N first users sorting in a Address rent price order as a map <Username, Rent_price>
+     */
+
+    public Map<String, Integer> mapWithSortByKeyObj(List<User> incomingData) {
+        return incomingData
+                .stream()
+                .sorted((s1, s2) -> {
+                    if (s1 == s2) return 0;
+                    return (s1.getAddress().getRentPrice()>s2.getAddress().getRentPrice()?-1:1);
+                })
+                .limit(2)
+                .collect(Collectors.toMap(i -> i.getId() + i.getName(), i -> i.getAddress().getRentPrice()));
+    }
 
 }
 
@@ -123,4 +136,5 @@ class User {
 class Address {
     int id;
     String street;
+    int rentPrice;
 }
