@@ -185,6 +185,28 @@ public class CollectionsExample {
                 .reduce(0, Integer::sum);
     }
 
+    /*
+      ------------ COMPUTE IF ABSENT -----------------
+     */
+
+    /**
+     * in this variant we put function directly to method computeIfAbsent as a lambda or method reference
+     */
+    public Map<String, Integer> computeIfAbsentExample(Map<String, Integer> source, String key){
+        source.computeIfAbsent(key, String::length); //method itself returns computing value, NOT map
+        return source;
+    }
+
+    /**
+     * in this variant we put function directly to method as a function, it helps when function is complicated
+     */
+    public  Map<Integer, List<String>> computeIfAbsentExampleComplicated(Map<Integer, List<String>> source,
+                                                                         Integer key,
+                                                                         Function<Integer, List<String>> computer){
+        source.computeIfAbsent(key, computer); //method itself returns computing value, NOT map
+        return source;
+    }
+
 
 
 }

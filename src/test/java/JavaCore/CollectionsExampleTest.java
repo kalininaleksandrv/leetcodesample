@@ -3,9 +3,8 @@ package JavaCore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -142,5 +141,34 @@ class CollectionsExampleTest {
         CollectionsExample collectionsExample = new CollectionsExample();
         Integer res = collectionsExample.countAllMatchingValuesV2(countSource, 10);
         assertEquals(3, res); // all numbers > 10 will be discarded, others will be count
+    }
+
+    @Test
+    void computeIfAbsentExample() {
+        CollectionsExample collectionsExample = new CollectionsExample();
+        Map<String, Integer> source = new HashMap<>();
+        source.put("one", 3);
+        source.put("two", 3); //map contains "one" and "two" but not "three"
+        Map<String, Integer> res = collectionsExample.computeIfAbsentExample(source, "three");
+        assertEquals(3, res.size());
+        assertTrue(res.containsKey("three"));
+        assertEquals(5, (int) res.get("three"));
+    }
+
+    @Test
+    void computeIfAbsentExampleComplicated() {
+        CollectionsExample collectionsExample = new CollectionsExample();
+        Function<Integer, List<String>> integerToListString = integer -> {
+            List<String> temp = new ArrayList<>();
+            temp.add(String.valueOf(integer));
+            return temp;
+        }; //pass this function to method to compute value
+        Map<Integer, List<String>> source = new HashMap<>();
+        source.put(1, List.of("1"));
+        source.put(2, List.of("2")); //map contains "one" and "two" but not "three"
+        Map<Integer, List<String>> res = collectionsExample.computeIfAbsentExampleComplicated(source, 3, integerToListString);
+        assertEquals(3, res.size());
+        assertTrue(res.containsKey(3));
+        assertEquals("3", res.get(3).get(0));
     }
 }
