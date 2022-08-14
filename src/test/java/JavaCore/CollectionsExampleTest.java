@@ -118,4 +118,13 @@ class CollectionsExampleTest {
         List<User> res = collectionsExample.letsFlatMap(List.of(incomingData, incomingData2));
         assertEquals(8, res.size());//list of two lists 4 elements each was flattened to single 8-elements list
     }
+
+    @Test
+    void listFromMap() {
+        CollectionsExample collectionsExample = new CollectionsExample();
+        Map<String, User> userMap = collectionsExample.mapFromUserListWithMerging(incomingData);
+        List<String> strings = collectionsExample.listFromMap(userMap);
+        assertEquals(3, strings.size()); //3 because only last record with key "Tanya" remains
+        assertTrue(strings.stream().allMatch(i -> i.contains("has a flat with address:")));
+    }
 }

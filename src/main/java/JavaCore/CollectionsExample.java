@@ -127,6 +127,17 @@ public class CollectionsExample {
                 .collect(Collectors.toList());
     }
 
+    public List<String> listFromMap(Map<String, User> map) {
+
+        return map
+                .entrySet()
+                .stream()
+                .map(e -> e.getKey() + " has a flat with address: " + e.getValue().getAddress().getStreet())
+                .collect(Collectors.toList());
+    }
+
+
+
 }
 
 @Data
