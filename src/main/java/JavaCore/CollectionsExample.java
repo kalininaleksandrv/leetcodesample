@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -65,7 +62,7 @@ public class CollectionsExample {
     }
 
     /*
-      ------------ MAPPING -----------------
+      ------------ COLLECTORS.toMAP -----------------
      */
 
     /**
@@ -117,6 +114,17 @@ public class CollectionsExample {
                 })
                 .limit(2)
                 .collect(Collectors.toMap(i -> i.getId() + i.getName(), i -> i.getAddress().getRentPrice()));
+    }
+
+    /*
+      ------------ MAP AND FLATMAP -----------------
+     */
+
+    public List<User> letsFlatMap(List<List<User>> incomingDataMessed) {
+        return incomingDataMessed
+                .stream()
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
     }
 
 }

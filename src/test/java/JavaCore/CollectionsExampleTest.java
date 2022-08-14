@@ -111,4 +111,11 @@ class CollectionsExampleTest {
         assertEquals(2, res.size());//2 because 2 is the limit
         assertTrue(res.values().stream().allMatch(i -> i>300));//remains only highest values 400 and 500
     }
+
+    @Test
+    void letsFlatMap() {
+        CollectionsExample collectionsExample = new CollectionsExample();
+        List<User> res = collectionsExample.letsFlatMap(List.of(incomingData, incomingData2));
+        assertEquals(8, res.size());//list of two lists 4 elements each was flattened to single 8-elements list
+    }
 }
