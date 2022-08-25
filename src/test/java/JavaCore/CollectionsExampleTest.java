@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -170,5 +171,12 @@ class CollectionsExampleTest {
         assertEquals(3, res.size());
         assertTrue(res.containsKey(3));
         assertEquals("3", res.get(3).get(0));
+    }
+
+    @Test
+    void getStreamOfAllListElements() {
+        CollectionsExample collectionsExample = new CollectionsExample();
+        Stream<User> streamOfAllListElements = collectionsExample.getStreamOfAllListElements(incomingData);
+        assertTrue(streamOfAllListElements.allMatch(e -> e.getId()<=4));
     }
 }

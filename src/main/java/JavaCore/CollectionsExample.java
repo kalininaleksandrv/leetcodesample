@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class CollectionsExample {
 
@@ -118,7 +119,7 @@ public class CollectionsExample {
     }
 
     /*
-      ------------ MAP AND FLATMAP -----------------
+      ------------ MAP FLATMAP ITERATION -----------------
      */
 
     public List<User> letsFlatMap(List<List<User>> incomingDataMessed) {
@@ -165,6 +166,10 @@ public class CollectionsExample {
                 .map(User::getName)
                 .forEach(System.out::println);
 
+    }
+
+    public <E> Stream<E> getStreamOfAllListElements (List<E> list) {
+        return IntStream.rangeClosed(0, list.size()-1).mapToObj(list::get);
     }
 
     /*
