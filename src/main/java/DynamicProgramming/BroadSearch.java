@@ -16,7 +16,13 @@ public class BroadSearch {
       0 0 0 0
      */
 
-    public Map<String, Integer> getShortestWay (int horizontalStart, int verticalStart, int matrixSize, Map<String, Integer> blockedCells, int step) {
+    //exponential complexity - each step can lead us to 4 more steps
+    // TODO: 16.08.2022 add memoization
+    public Map<String, Integer> getShortestWay (int horizontalStart,
+                                                int verticalStart,
+                                                int matrixSize,
+                                                Map<String, Integer> blockedCells,
+                                                int step) {
 
         /*
           we'll move step by step, h+1, h-1, v+1, v-1
