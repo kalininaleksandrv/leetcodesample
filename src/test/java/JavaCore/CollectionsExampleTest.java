@@ -179,4 +179,48 @@ class CollectionsExampleTest {
         Stream<User> streamOfAllListElements = collectionsExample.getStreamOfAllListElements(incomingData);
         assertTrue(streamOfAllListElements.allMatch(e -> e.getId()<=4));
     }
+
+    @Test
+    void removeElementsFromList() {
+        CollectionsExample collectionsExample = new CollectionsExample();
+        assertThrows(UnsupportedOperationException.class, collectionsExample::removeElementsFromList);
+    }
+
+    @Test
+    void removeElementsFromListV2() {
+        CollectionsExample collectionsExample = new CollectionsExample();
+        assertThrows(ConcurrentModificationException.class, collectionsExample::removeElementsFromListV2);
+    }
+
+    @Test
+    void removeElementsFromListWithIterator() {
+        CollectionsExample collectionsExample = new CollectionsExample();
+        assertThrows(UnsupportedOperationException.class, collectionsExample::removeElementsFromListWithIterator);
+    }
+
+    @Test
+    void removeElementsWithIteratorFail() {
+        CollectionsExample collectionsExample = new CollectionsExample();
+        assertThrows(ConcurrentModificationException.class, () -> collectionsExample
+                .removeElementsWithIteratorFail(List.of("orange", "apple", "pineapple")));
+    }
+
+    @Test
+    void removeElementsFromListWithIteratorAndWrapping() {
+        CollectionsExample collectionsExample = new CollectionsExample();
+        List<String> strings = collectionsExample
+                .removeElementsWithIteratorSuccess(List.of("orange", "apple", "pineapple"));
+        assertFalse(strings.contains("apple"));
+        assertFalse(strings.contains("orange"));
+        assertEquals(1, strings.size());
+    }
+
+    @Test
+    void removeElementsWithFailSafeCollection() {
+        CollectionsExample collectionsExample = new CollectionsExample();
+        List<String> strings = collectionsExample.removeElementsWithFailSafeCollection();
+        assertEquals(3, strings.size());
+        assertFalse(strings.contains("pineapple"));
+        assertTrue(strings.contains("grapefruit"));
+    }
 }

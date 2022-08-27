@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -212,6 +214,93 @@ public class CollectionsExample {
         return source;
     }
 
+    /*
+    ------------ FAIL FAST --------------
+     */
+
+    List<String> removeElementsFromList() {
+        List<String> income = List.of("orange", "apple", "pineapple");
+        // throw an UnsupportedOperationException since List.of implementation might not be an ArrayList
+        income.removeIf(s -> s.equals("orange"));
+        return income;
+    }
+
+    List<String> removeElementsFromListV2() {
+        List<String> income = new ArrayList<>(List.of("orange", "apple", "pineapple"));
+        // throw an ConcurrentModificationException since we try to modify origin ArrayList from inside the loop
+        for (String s:income) {
+            income.remove(s);
+        }
+        return income;
+    }
+
+    List<String> removeElementsFromListWithIterator() {
+        List<String> income = List.of("orange", "apple", "pineapple");
+        // throw an UnsupportedOperationException since List.of implementation might not be an ArrayList
+        Iterator<String> firstListIterator = income.iterator();
+        while (firstListIterator.hasNext()){
+            if(firstListIterator.next().equals("apple")){
+                firstListIterator.remove();
+            }
+        }
+        return income;
+    }
+
+    List<String> removeElementsWithIteratorFail(List<String> income) {
+        // wrap with ArrayList to get rid of UnsupportedOperationException
+        List<String> wrapped = new ArrayList<>(income);
+        Iterator<String> iterator = wrapped.iterator();
+        // throw an ConcurrentModificationException since we try to modify origin ArrayList from inside the loop
+        while (iterator.hasNext()) {
+            if (iterator.next().equals("pineapple")){
+                wrapped.remove("pineapple");
+            }
+        }
+        // wrapped.removeIf(s -> s.equals("orange")) also will throw CME
+        return wrapped;
+    }
+
+    List<String> removeElementsWithIteratorSuccess(List<String> income) {
+        List<String> wraped = new ArrayList<>(income);
+        Iterator<String> firstListIterator = wraped.iterator();
+        // after wrapping iterator will not throw exception
+        while (firstListIterator.hasNext()){
+            if(firstListIterator.next().equals("apple")){
+                //here we invoke iterator NOT original collection
+                //and operation will succeed
+                firstListIterator.remove();
+            }
+        }
+        // and this way of removing also not throw an exception
+        income.removeIf(s -> s.equals("orange"));
+
+        // we can't deal with "add" problem call iterator instead of collection,
+        // as we do with remove, because iterator have not an add()-method
+        // so use FAIL-SAFE collections to fix problem
+
+        return wraped;
+    }
+
+    /*
+    ------------ FAIL SAFE --------------
+     */
+
+    List<String> removeElementsWithFailSafeCollection() {
+        List<String> example = new CopyOnWriteArrayList<>();
+        example.add("orange");
+        example.add("apple");
+        example.add("pineapple");
+
+        for (String s : example) {
+            if (s.equals("pineapple")) {
+                // will NOT throw Exception, since it a failsafe
+                example.remove("pineapple");
+                //adn we can add also
+                example.add("grapefruit");
+            }
+        }
+        return example;
+    }
 
 
 }
