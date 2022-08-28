@@ -20,4 +20,19 @@ class ConcurrencyExampleTest {
         concurrencyExample.howToCreateThreads();
     }
 
+    @Test
+    void calculationInDifferentThreadWithCallable() {
+        ConcurrencyExample concurrencyExample = new ConcurrencyExample();
+        int res = concurrencyExample.calculationInDifferentThreadWithCallable(new int[]{1, 2, 3});
+        // see the thread usage in console
+        assertEquals(6, res);
+    }
+
+    @Test
+    void callableCalculatorLambdaSimplification() {
+        ConcurrencyExample concurrencyExample = new ConcurrencyExample();
+        int res = concurrencyExample.callableCalculatorLambdaSimplification(new int[]{1,2,3});
+        // see the thread usage in console
+        assertEquals(6, res);
+    }
 }
