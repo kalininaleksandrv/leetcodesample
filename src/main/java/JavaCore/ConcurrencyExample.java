@@ -1,8 +1,6 @@
 package JavaCore;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
+import java.util.concurrent.*;
 import java.util.stream.IntStream;
 
 public class ConcurrencyExample {
@@ -62,6 +60,33 @@ public class ConcurrencyExample {
             throw new RuntimeException(e);
         }
     }
+
+    public void executorWithoutService() {
+        Executor executor = new ParallelCalculatorV2();
+        executor.execute(() -> System.out.println("hello from thread " + Thread.currentThread().getName()));
+    }
+
+    public int executorServiceWithCallableUsage(int[] nums) {
+        ExecutorService threadPool = Executors.newFixedThreadPool(2);
+        Future<Integer> submit = threadPool.submit(() -> {
+            System.out.println("execute in " + Thread.currentThread().getName());
+            return IntStream.of(nums).sum();
+        });
+        try {
+            return submit.get();
+        } catch (InterruptedException | ExecutionException e) {
+            /*
+             * not guaranty stops of tasks but can attempt
+             */
+            threadPool.shutdownNow();
+            throw new RuntimeException(e);
+        } finally {
+            /*
+             * only stops to accept tasks, but previously accepted will execute
+             */
+            threadPool.shutdown();
+        }
+    }
 }
 
 class ExampleOfSynchronization {
@@ -102,5 +127,14 @@ class ParallelCalculator implements Callable<Integer> {
     public Integer call() {
         System.out.println("trying to calculate in thread " + Thread.currentThread().getName());
         return IntStream.of(numbersToCalculate).sum();
+    }
+}
+
+class ParallelCalculatorV2 implements Executor {
+
+    @Override
+    public void execute(Runnable command) {
+        //that's how we use a different thread
+        new Thread(command).start();
     }
 }

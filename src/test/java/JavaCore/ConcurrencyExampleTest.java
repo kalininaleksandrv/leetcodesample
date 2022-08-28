@@ -35,4 +35,19 @@ class ConcurrencyExampleTest {
         // see the thread usage in console
         assertEquals(6, res);
     }
+
+    @Test
+    void executorWithoutService() {
+        ConcurrencyExample concurrencyExample = new ConcurrencyExample();
+        //simply run method, see the result in console
+        concurrencyExample.executorWithoutService();
+    }
+
+    @Test
+    void executorServiceWithCallableUsage() {
+        ConcurrencyExample concurrencyExample = new ConcurrencyExample();
+        // see the thread usage in console
+        int res = concurrencyExample.executorServiceWithCallableUsage(new int[]{1, 2, 3});
+        assertEquals(6, res);
+    }
 }
