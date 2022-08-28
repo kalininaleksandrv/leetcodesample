@@ -12,4 +12,12 @@ class ConcurrencyExampleTest {
         int res = concurrencyExample.exampleOfSync();
         assertEquals(1, res);
     }
+
+    @Test
+    void howToCreateThreads() {
+        ConcurrencyExample concurrencyExample = new ConcurrencyExample();
+        //simply run method, see the result in console
+        concurrencyExample.howToCreateThreads();
+    }
+
 }
