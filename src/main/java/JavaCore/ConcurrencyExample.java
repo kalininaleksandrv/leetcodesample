@@ -1,6 +1,7 @@
 package JavaCore;
 
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.IntStream;
 
 public class ConcurrencyExample {
@@ -138,6 +139,63 @@ public class ConcurrencyExample {
         }
 
         System.out.println("all thread finished");
+    }
+
+    public int takeResultFromFuture() {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Future<Integer> res = executorService.submit(() -> {
+            System.out.println("work with " + Thread.currentThread().getName());
+            Thread.sleep(3000);
+            return 100;
+        });
+
+        try {
+            while (!res.isDone()) {
+                System.out.println("not ready yet " + Thread.currentThread().getName());
+                Thread.sleep(500);
+            }
+            System.out.println("result ready, it is " + res.get());
+            return res.get();
+        } catch (InterruptedException | ExecutionException e) {
+            res.cancel(true);
+            res.isDone();
+            res.isCancelled();
+            throw new RuntimeException(e);
+        } finally {
+            executorService.shutdown();
+        }
+    }
+
+    public void howToInterruptTaskInsideThread() {
+
+        AtomicBoolean keepRunning = new AtomicBoolean(true);
+
+        Thread t1 = new Thread(() -> {
+            int i = 0;
+            /*
+            keep in mind that if you will try to make some long external operation
+            you will not return in a "while" block of loop
+            so, there is no such a way to stop thread
+             */
+            System.out.println("1 or 2 " + Thread.currentThread().getName());
+            while (keepRunning.get()){
+                i++;
+            }
+            System.out.println("4 " + i + " in thread " + Thread.currentThread().getName());
+        }, "my_thread_1");
+
+        t1.start();
+
+        try {
+            System.out.println("1 or 2 " + Thread.currentThread().getName());
+            Thread.currentThread().setName("the_new_name_instead_of_main");
+            Thread.sleep(500);
+            System.out.println("3 " + Thread.currentThread().getName());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //invoke interruption here
+        keepRunning.set(false);
     }
 }
 

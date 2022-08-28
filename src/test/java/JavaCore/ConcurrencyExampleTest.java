@@ -57,4 +57,19 @@ class ConcurrencyExampleTest {
         //simply run method, see the result in console
         concurrencyExample.howTheJoinWorks();
     }
+
+    @Test
+    void takeResultFromFuture() {
+        ConcurrencyExample concurrencyExample = new ConcurrencyExample();
+        // see the thread usage in console
+        assertEquals(100, concurrencyExample.takeResultFromFuture());
+    }
+
+    @Test
+    void howToInterruptTaskInsideThread() {
+        ConcurrencyExample concurrencyExample = new ConcurrencyExample();
+        //simply run method, see the result in console
+        concurrencyExample.howToInterruptTaskInsideThread();
+
+    }
 }
