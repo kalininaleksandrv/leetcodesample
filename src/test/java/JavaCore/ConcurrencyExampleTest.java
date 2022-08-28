@@ -50,4 +50,11 @@ class ConcurrencyExampleTest {
         int res = concurrencyExample.executorServiceWithCallableUsage(new int[]{1, 2, 3});
         assertEquals(6, res);
     }
+
+    @Test
+    void howTheJoinWorks() {
+        ConcurrencyExample concurrencyExample = new ConcurrencyExample();
+        //simply run method, see the result in console
+        concurrencyExample.howTheJoinWorks();
+    }
 }

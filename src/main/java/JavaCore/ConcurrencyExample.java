@@ -25,8 +25,7 @@ public class ConcurrencyExample {
         //same with lambda
         Runnable runnableWithLambda = () -> System.out.println("hello from " + Thread.currentThread().getName());
 
-        Thread thread1 = new Thread(runnable);
-        thread1.setName("my-custom-thread");
+        Thread thread1 = new Thread(runnable, "my-custom-thread");
         thread1.start();
 
         Thread thread2 = new Thread(runnableWithLambda);
@@ -86,6 +85,59 @@ public class ConcurrencyExample {
              */
             threadPool.shutdown();
         }
+    }
+
+    public void howTheJoinWorks() {
+
+        Thread t1 = new Thread(() -> {
+            try {
+                System.out.println("start working with thread " + Thread.currentThread().getName());
+                Thread.sleep(4000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException();
+            }
+        }, "Thread-1");
+
+        Thread t2 = new Thread(() -> {
+            try {
+                System.out.println("start working with thread " + Thread.currentThread().getName());
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException();
+            }
+        }, "Thread-2");
+
+        Thread t3 = new Thread(() -> {
+            try {
+                System.out.println("start working with thread " + Thread.currentThread().getName());
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException();
+            }
+        }, "Thread-3");
+
+        t1.start();
+
+        try {
+            //t2 will start when the t1 finish working
+            t1.join();
+
+            t2.start();
+
+            //t3 will start after 1 sec waiting of t2 (despite t2 runs 10 sec)
+            t2.join(1000);
+
+            t3.start();
+
+            //letting all threads finish work before program stops
+            t1.join();
+            t2.join();
+            t3.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("all thread finished");
     }
 }
 
