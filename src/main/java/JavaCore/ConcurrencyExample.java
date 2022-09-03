@@ -197,6 +197,8 @@ public class ConcurrencyExample {
         //invoke interruption here
         keepRunning.set(false);
     }
+
+    // TODO: 28.08.2022 add ThreadLocal example
 }
 
 class ExampleOfSynchronization {

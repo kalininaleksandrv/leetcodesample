@@ -19,6 +19,7 @@ public class StringIsAnagram {
         /*
           idea is - lets create array for all english letters and increment value on letter's index
           then if frequency of same letters is not equal  -is not anagram
+          we also can improve this solution and use HashMap instead of array
          */
 
         int[] freq = new int[26];
