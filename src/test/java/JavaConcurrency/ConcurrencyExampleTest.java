@@ -1,4 +1,4 @@
-package JavaCore;
+package JavaConcurrency;
 
 import org.junit.jupiter.api.Test;
 

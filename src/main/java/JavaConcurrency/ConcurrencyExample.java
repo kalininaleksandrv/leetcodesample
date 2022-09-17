@@ -1,4 +1,4 @@
-package JavaCore;
+package JavaConcurrency;
 
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
