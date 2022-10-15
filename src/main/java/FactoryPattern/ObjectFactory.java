@@ -1,18 +1,11 @@
 package FactoryPattern;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class ObjectFactory<T> {
 
     private final Config<T> configuration;
 
-    public ObjectFactory() {
-        /*
-         since we have more then two impl of Worker, we add default impl to map
-         it makes us erase type of Config because we need it to be <T> but put concrete ipl in map
-         */
-        this.configuration = new Config("FactoryPattern", new HashMap<>(Map.of(Worker.class, Driver.class)));
+    public ObjectFactory(Config<T> configuration) {
+        this.configuration = configuration;
     }
 
     T createObject (Class<T> type){
