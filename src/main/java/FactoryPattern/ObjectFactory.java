@@ -1,12 +1,17 @@
 package FactoryPattern;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class ObjectFactory<T> {
 
-    private final Config<T> configuration = new Config<>("FactoryPattern", new HashMap<>());
+    private final Config<Worker> configuration;
 
-    T createObject (Class<T> type){
+    public ObjectFactory() {
+        this.configuration = new Config<>("FactoryPattern", new HashMap<>(Map.of(Worker.class, Driver.class)));
+    }
+
+    T createObject (Class type){
         Class<? extends T> implClass = type;
         if(type.isInterface()){
             implClass = configuration.getClassByIfc(type);
