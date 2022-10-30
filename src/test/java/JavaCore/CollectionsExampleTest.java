@@ -223,4 +223,11 @@ class CollectionsExampleTest {
         assertFalse(strings.contains("pineapple"));
         assertTrue(strings.contains("grapefruit"));
     }
+
+    @Test
+    void collectionFromIterable() {
+        CollectionsExample collectionsExample = new CollectionsExample();
+        List<String> strings = collectionsExample.collectionFromIterable(Arrays.asList("Testing", "Iterable", "conversion", "to", "Stream"));
+        assertTrue(strings.containsAll(List.of("Testing", "Iterable", "conversion", "to", "Stream")));
+    }
 }

@@ -6,11 +6,11 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class CollectionsExample {
 
@@ -172,6 +172,10 @@ public class CollectionsExample {
 
     public <E> Stream<E> getStreamOfAllListElements (List<E> list) {
         return IntStream.rangeClosed(0, list.size()-1).mapToObj(list::get);
+    }
+
+    public <T> List<T> collectionFromIterable(Iterable<T> iterable){
+        return StreamSupport.stream(iterable.spliterator(), false).toList();
     }
 
     /*
