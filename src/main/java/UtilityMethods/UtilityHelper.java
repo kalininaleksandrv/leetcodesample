@@ -4,8 +4,8 @@ import java.util.function.Function;
 
 public abstract class UtilityHelper {
 
-    static Function<Integer, String> converterFromIntToString(){
+    static Function<String, Message> converterFromIntToString(){
         System.out.println("converter was created");
-        return String::valueOf;
+        return Message::new;
     }
 }

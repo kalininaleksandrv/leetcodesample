@@ -11,7 +11,7 @@ class ConverterTest {
     @Test
     void convert() {
         Converter converter = new Converter();
-        List<String> stringList = converter.convert(List.of(1, 2, 3));
+        List<Message> stringList = converter.convert(List.of("one", "two", "three"));
         assertEquals(3, stringList.size());
     }
 }

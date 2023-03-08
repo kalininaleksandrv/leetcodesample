@@ -6,12 +6,12 @@ import static UtilityMethods.UtilityHelper.converterFromIntToString;
 
 public class Converter {
 
-    List<String> convert(List<Integer> from) {
+    List<Message> convert(List<String> from) {
         System.out.println("Invoke converter");
         /*
         converter creates lazy and only once
          */
-        List<String> stringList = from.stream()
+        List<Message> stringList = from.stream()
                 .map(converterFromIntToString())
                 .toList();
         System.out.println("Result is " + stringList);
