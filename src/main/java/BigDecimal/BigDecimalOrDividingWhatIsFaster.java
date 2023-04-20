@@ -1,8 +1,16 @@
 package BigDecimal;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class BigDecimalOrDividingWhatIsFaster {
+
+    public String getCurrencyWithFormat(Double amt, Locale locale) {
+        return NumberFormat
+                .getCurrencyInstance(locale)
+                .format(amt);
+    }
 
     public String exchange (long income, Currency incomeCurrency, Currency outcomeCurrency){
         Integer rate = ExchangeHelper.getRate(incomeCurrency, outcomeCurrency);

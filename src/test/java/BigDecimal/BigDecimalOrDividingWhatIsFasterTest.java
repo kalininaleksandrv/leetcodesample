@@ -2,6 +2,7 @@ package BigDecimal;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Locale;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,5 +37,14 @@ class BigDecimalOrDividingWhatIsFasterTest {
         }
         long finish2 = System.nanoTime();
         System.out.println("it takes " + (finish2-start2)/1000000 + " ms with Big decimal");
+    }
+
+    @Test
+    void getCurrencyWithFormat() {
+        BigDecimalOrDividingWhatIsFaster bd = new BigDecimalOrDividingWhatIsFaster();
+        String currencyWithFormatUs = bd.getCurrencyWithFormat(42.2, Locale.US);
+        String currencyWithFormatGe = bd.getCurrencyWithFormat(42.20, Locale.UK);
+        assertEquals("$42.20", currencyWithFormatUs);
+        assertEquals("£42.20", currencyWithFormatGe);
     }
 }
