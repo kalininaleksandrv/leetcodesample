@@ -306,6 +306,20 @@ public class CollectionsExample {
         return example;
     }
 
+    List<String> removeFromMap() {
+        Map<Integer, String> mapToRemove = new HashMap<>();
+        mapToRemove.put(1, "Alice");
+        mapToRemove.put(2, "Bob");
+        mapToRemove.put(3, "Carl");
+
+        List<Integer> myList = List.of(1, 2, 5, 7);
+        return myList
+                .stream()
+                .filter(mapToRemove::containsKey)
+                .map(mapToRemove::remove)
+                .toList();
+    }
+
 
 }
 

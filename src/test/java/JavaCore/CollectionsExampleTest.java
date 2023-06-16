@@ -230,4 +230,14 @@ class CollectionsExampleTest {
         List<String> strings = collectionsExample.collectionFromIterable(Arrays.asList("Testing", "Iterable", "conversion", "to", "Stream"));
         assertTrue(strings.containsAll(List.of("Testing", "Iterable", "conversion", "to", "Stream")));
     }
+
+    @Test
+    void removeFromMap() {
+        CollectionsExample collectionsExample = new CollectionsExample();
+        var res = collectionsExample.removeFromMap();
+        assertEquals(2, res.size());
+        assertTrue(res.contains("Alice"));
+        assertTrue(res.contains("Bob"));
+        assertFalse(res.contains("Carl"));
+    }
 }
